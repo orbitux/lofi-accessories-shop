@@ -1,4 +1,5 @@
 import express from 'express'
+import { pool } from '../config/database.js'
 
 const app = express()
 
@@ -19,6 +20,15 @@ app.post('/api/products', (req, res) => {
     })
 
 })
+
+app.get('/api/categories', async (req, res) => {
+    const result = await pool.query(
+        "SELECT * FROM categories"
+    )
+    res.json(result.rows)
+})
+
+
 
 app.listen(3000, () => {
     console.log('Server is Running on port 3000');
