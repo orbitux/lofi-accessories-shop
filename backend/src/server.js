@@ -21,15 +21,74 @@ app.post('/api/products', (req, res) => {
 
 })
 
-app.get('/api/categories', async (req, res) => {
+const getQuery = "SELECT * FROM"
+
+app.get('/api/addresses', async (req, res) => {
     const result = await pool.query(
-        "SELECT * FROM categories"
+        `${getQuery} addresses`
     )
     res.json(result.rows)
 })
-
-
-
+app.get('/api/cart-items', async (req, res) => {
+    const result = await pool.query(
+        `${getQuery} cart_items`
+    )
+    res.json(result.rows)
+})
+app.get('/api/carts', async (req, res) => {
+    const result = await pool.query(
+        `${getQuery} carts`
+    )
+    res.json(result.rows)
+})
+app.get('/api/categories', async (req, res) => {
+    const result = await pool.query(
+        `${getQuery} categories`
+    )
+    res.json(result.rows)
+})
+app.get('/api/order-items', async (req, res) => {
+    const result = await pool.query(
+        `${getQuery} order_items`
+    )
+    res.json(result.rows)
+})
+app.get('/api/orders', async (req, res) => {
+    const result = await pool.query(
+        `${getQuery} orders`
+    )
+    res.json(result.rows)
+})
+app.get('/api/payments',async (req,res)=>{
+    const result = await pool.query(
+        `${getQuery} payments`
+    )
+    res.json(result.rows)
+})
+app.get('/api/product-images',async(req,res)=>{
+    const result = await pool.query(
+        `${getQuery} product_images`
+    )
+    res.json(result.rows)
+})
+app.get('/api/product-variants',async(req,res)=>{
+    const result = await pool.query(
+        `${getQuery} product_variants`
+    )
+    res.json(result.rows)
+})
+app.get('/api/products',async(req,res)=>{
+    const result = await pool.query(
+        `${getQuery} products`
+    )
+    res.json(result.rows)
+})
+app.get('/api/users',async(req,res)=>{
+    const result = await pool.query(
+        `${getQuery} users`
+    )
+    res.json(result.rows)
+})
 app.listen(3000, () => {
     console.log('Server is Running on port 3000');
 })
