@@ -1,5 +1,9 @@
 {
-  "name": "backend",
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  },
+  "name": "lofi_accessories",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +11,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "type": "module",
-  "dependencies": {
-    "express": "^5.2.1"
-  }
+  "type": "module"
 }
