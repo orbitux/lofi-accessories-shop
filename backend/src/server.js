@@ -1,10 +1,9 @@
 import express from 'express'
 import { pool } from '../config/database.js'
-
+import categoriesRoutes from './routes/categoriesRoutes.js'
 const app = express()
 
 app.use(express.json())
-
 app.get('/', (req, res) => {
     res.json({
         message: "API is running!"
@@ -21,8 +20,8 @@ app.post('/api/products', (req, res) => {
 
 })
 
+app.use('/api/categories',categoriesRoutes)
 const getQuery = "SELECT * FROM"
-
 app.get('/api/addresses', async (req, res) => {
     const result = await pool.query(
         `${getQuery} addresses`
@@ -41,12 +40,7 @@ app.get('/api/carts', async (req, res) => {
     )
     res.json(result.rows)
 })
-app.get('/api/categories', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} categories`
-    )
-    res.json(result.rows)
-})
+
 app.get('/api/order-items', async (req, res) => {
     const result = await pool.query(
         `${getQuery} order_items`
