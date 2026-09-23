@@ -1,26 +1,19 @@
 import express from 'express'
 import { pool } from '../config/database.js'
 import categoriesRoutes from './routes/categoriesRoutes.js'
+import productsRoutes from './routes/productsRoutes.js'
 const app = express()
 
 app.use(express.json())
+
 app.get('/', (req, res) => {
     res.json({
         message: "API is running!"
     })
 })
 
-app.post('/api/products', (req, res) => {
-    console.log(req.body);
-
-    res.status(201).json({
-        message: "Data received successfuly",
-        data: req.body
-    })
-
-})
-
-app.use('/api/categories',categoriesRoutes)
+app.use('/api/categories', categoriesRoutes)
+app.use('/api/products', productsRoutes)
 const getQuery = "SELECT * FROM"
 app.get('/api/addresses', async (req, res) => {
     const result = await pool.query(
@@ -53,31 +46,26 @@ app.get('/api/orders', async (req, res) => {
     )
     res.json(result.rows)
 })
-app.get('/api/payments',async (req,res)=>{
+app.get('/api/payments', async (req, res) => {
     const result = await pool.query(
         `${getQuery} payments`
     )
     res.json(result.rows)
 })
-app.get('/api/product-images',async(req,res)=>{
+app.get('/api/product-images', async (req, res) => {
     const result = await pool.query(
         `${getQuery} product_images`
     )
     res.json(result.rows)
 })
-app.get('/api/product-variants',async(req,res)=>{
+app.get('/api/product-variants', async (req, res) => {
     const result = await pool.query(
         `${getQuery} product_variants`
     )
     res.json(result.rows)
 })
-app.get('/api/products',async(req,res)=>{
-    const result = await pool.query(
-        `${getQuery} products`
-    )
-    res.json(result.rows)
-})
-app.get('/api/users',async(req,res)=>{
+
+app.get('/api/users', async (req, res) => {
     const result = await pool.query(
         `${getQuery} users`
     )
