@@ -3,6 +3,7 @@ import { pool } from '../config/database.js'
 import categoriesRoutes from './routes/categoriesRoutes.js'
 import productsRoutes from './routes/productsRoutes.js'
 import pVariantsRoutes from './routes/pVariantsRoutes.js'
+import pImagesRoutes from './routes/pImagesRoutes.js'
 const app = express()
 
 app.use(express.json())
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 app.use('/api/categories', categoriesRoutes)
 app.use('/api/products', productsRoutes)
 app.use('/api/product-variants', pVariantsRoutes)
+app.use('/api/product-images', pImagesRoutes)
 const getQuery = "SELECT * FROM"
 app.get('/api/addresses', async (req, res) => {
     const result = await pool.query(
@@ -51,12 +53,6 @@ app.get('/api/orders', async (req, res) => {
 app.get('/api/payments', async (req, res) => {
     const result = await pool.query(
         `${getQuery} payments`
-    )
-    res.json(result.rows)
-})
-app.get('/api/product-images', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} product_images`
     )
     res.json(result.rows)
 })
