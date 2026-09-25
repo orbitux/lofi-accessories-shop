@@ -5,6 +5,7 @@ import productsRoutes from './routes/productsRoutes.js'
 import pVariantsRoutes from './routes/pVariantsRoutes.js'
 import pImagesRoutes from './routes/pImagesRoutes.js'
 import addressesRoutes from './routes/addressesRoutes.js'
+import usersRoutes from './routes/usersRoutes.js'
 const app = express()
 
 app.use(express.json())
@@ -20,6 +21,7 @@ app.use('/api/products', productsRoutes)
 app.use('/api/product-variants', pVariantsRoutes)
 app.use('/api/product-images', pImagesRoutes)
 app.use('/api/addresses', addressesRoutes)
+app.use('/api/users', usersRoutes)
 const getQuery = "SELECT * FROM"
 
 app.get('/api/cart-items', async (req, res) => {
@@ -50,14 +52,6 @@ app.get('/api/orders', async (req, res) => {
 app.get('/api/payments', async (req, res) => {
     const result = await pool.query(
         `${getQuery} payments`
-    )
-    res.json(result.rows)
-})
-
-
-app.get('/api/users', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} users`
     )
     res.json(result.rows)
 })
