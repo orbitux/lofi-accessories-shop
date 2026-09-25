@@ -4,6 +4,7 @@ import categoriesRoutes from './routes/categoriesRoutes.js'
 import productsRoutes from './routes/productsRoutes.js'
 import pVariantsRoutes from './routes/pVariantsRoutes.js'
 import pImagesRoutes from './routes/pImagesRoutes.js'
+import addressesRoutes from './routes/addressesRoutes.js'
 const app = express()
 
 app.use(express.json())
@@ -18,13 +19,9 @@ app.use('/api/categories', categoriesRoutes)
 app.use('/api/products', productsRoutes)
 app.use('/api/product-variants', pVariantsRoutes)
 app.use('/api/product-images', pImagesRoutes)
+app.use('/api/addresses', addressesRoutes)
 const getQuery = "SELECT * FROM"
-app.get('/api/addresses', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} addresses`
-    )
-    res.json(result.rows)
-})
+
 app.get('/api/cart-items', async (req, res) => {
     const result = await pool.query(
         `${getQuery} cart_items`
