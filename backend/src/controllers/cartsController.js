@@ -1,4 +1,4 @@
-import { addToCartService, getCartsService } from "../services/cartsService.js"
+import { addToCartService, deleteCartItemService, getCartsService, updateCartItemService } from "../services/cartsService.js"
 
 export const getCartsController = async (req, res) => {
     try {
@@ -21,5 +21,37 @@ export const addToCartController = async (req, res) => {
         res.status(500).json({
             message: error.message
         })
+    }
+}
+export const updateCartItemController = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { quantity } = req.body
+        if (!Number.isInteger(quantity) || quantity <= 0) {
+            return res.status(400).json({
+                message: "Quantity must be a positive integer"
+            });
+        }
+        const updatedItem = await updateCartItemService(1, id, quantity)
+        res.status(200).json(updatedItem)
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}
+export const deleteCartItemController = async (req, res) => {
+    try {
+        const { id } = req.params
+        const deleteItem = await deleteCartItemService(1, id)
+        res.status(200).json(deleteItem)
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: error.message
+        });
     }
 }

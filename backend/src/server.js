@@ -11,12 +11,6 @@ const app = express()
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.json({
-        message: "API is running!"
-    })
-})
-
 app.use('/api/categories', categoriesRoutes)
 app.use('/api/products', productsRoutes)
 app.use('/api/product-variants', pVariantsRoutes)
@@ -24,15 +18,6 @@ app.use('/api/product-images', pImagesRoutes)
 app.use('/api/addresses', addressesRoutes)
 app.use('/api/users', usersRoutes)
 app.use('/api/carts', cartsRoutes)
-const getQuery = "SELECT * FROM"
-
-app.get('/api/cart-items', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} cart_items`
-    )
-    res.json(result.rows)
-})
-
 app.get('/api/order-items', async (req, res) => {
     const result = await pool.query(
         `${getQuery} order_items`

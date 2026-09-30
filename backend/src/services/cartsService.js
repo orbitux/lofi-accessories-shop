@@ -43,7 +43,6 @@ export const addToCartService = async (userId, productVariantId, quantity) => {
         throw new Error("Product variant not found")
     }
     const variant = variantResult.rows[0]
-    console.log(variant)
     if (quantity > variant.stock) {
         throw new Error("Not enough stock")
     }
@@ -58,7 +57,6 @@ export const addToCartService = async (userId, productVariantId, quantity) => {
         throw new Error("Cart not found")
     }
     const cart = cartResult.rows[0]
-    console.log(cart)
 
     const cartItemResult = await pool.query(
         `SELECT id,quantity FROM cart_items WHERE cart_id = $1 AND product_variant_id = $2`,
@@ -76,7 +74,6 @@ export const addToCartService = async (userId, productVariantId, quantity) => {
                 SET quantity = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING * 
             `, [newQuantity, cartItem.id]
         )
-        console.log("New quantity:", newQuantity);
         return updateResult.rows[0]
     }
     const insertResult = await pool.query(
@@ -85,4 +82,52 @@ export const addToCartService = async (userId, productVariantId, quantity) => {
         `, [cart.id, productVariantId, quantity]
     )
     return insertResult.rows[0]
+}
+
+export const updateCartItemService = async (userId, cartItemId, quantity) => {
+    const result = await pool.query(
+        `
+        SELECT ci.id,ci.quantity,ci.product_variant_id,pv.stock
+        FROM cart_items ci
+        JOIN carts c
+        ON c.id = ci.cart_id
+        JOIN product_variants pv
+        ON pv.id = ci.product_variant_id
+        WHERE ci.id = $1
+        AND c.user_id = $2
+    `,
+        [cartItemId, userId]
+    )
+    if (result.rows.length === 0) {
+        throw new Error("Cart item not found");
+    }
+    const cartItem = result.rows[0]
+    if (quantity > cartItem.stock) {
+        throw new Error("Not enough stock");
+    }
+    const updateResult = await pool.query(
+        `
+            UPDATE cart_items SET quantity = $1, updated_at = CURRENT_TIMESTAMP where id = $2
+            RETURNING *
+        `,
+        [quantity, cartItemId]
+    )
+    return updateResult.rows[0]
+}
+
+export const deleteCartItemService = async (userId, cartItemId) => {
+    const result = await pool.query(
+        `
+            DELETE FROM cart_items ci
+            USING carts c
+            WHERE ci.cart_id = c.id
+            AND ci.id = $1
+            AND c.user_id = $2
+            RETURNING ci.*
+        `, [cartItemId, userId]
+    )
+    if (result.rows.length === 0) {
+        throw new Error("Cart item not found");
+    }
+    return result.rows[0]
 }
