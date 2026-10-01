@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { pool } from '../config/database.js'
 import categoriesRoutes from './routes/categoriesRoutes.js'
 import productsRoutes from './routes/productsRoutes.js'
@@ -8,7 +9,9 @@ import addressesRoutes from './routes/addressesRoutes.js'
 import usersRoutes from './routes/usersRoutes.js'
 import cartsRoutes from './routes/cartsRoutes.js'
 const app = express()
-
+app.use(cors({
+    origin: 'http://localhost:3000'
+}))
 app.use(express.json())
 
 app.use('/api/categories', categoriesRoutes)
@@ -36,6 +39,6 @@ app.get('/api/payments', async (req, res) => {
     )
     res.json(result.rows)
 })
-app.listen(3000, () => {
-    console.log('Server is Running on port 3000');
+app.listen(4000, () => {
+    console.log('Server is Running on port 4000');
 })
