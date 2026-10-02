@@ -21,7 +21,7 @@ const HeroSlider = () => {
             loop={true}
             spaceBetween={20}
             slidesPerView={1}
-            className='h-[calc(100dvh-80px)]'
+            className='h-[calc(100dvh-80px)] shadow-2xl shadow-mauve-500'
         >
             {images.map((image, index) => (
                 <SwiperSlide key={index} >
