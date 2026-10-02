@@ -40,8 +40,8 @@ export const createCategoryController = async (req, res) => {
 export const updateCategoryController = async (req, res) => {
     try {
         const { id } = req.params
-        const { name, slug } = req.body
-        const category = await updateCategory(name, slug, id)
+        const { name, slug, image_url, alt_text } = req.body
+        const category = await updateCategory(name, slug, image_url, alt_text, id)
         res.status(200).json(category)
     } catch (error) {
         console.log(error);

@@ -20,10 +20,10 @@ export const createCategory = async (name, slug) => {
     )
     return result.rows[0]
 }
-export const updateCategory = async (name, slug, id) => {
+export const updateCategory = async (name, slug, image_url, alt_text, id) => {
     const result = await pool.query(
-        "UPDATE categories SET name = $1, slug = $2 WHERE id = $3 RETURNING *",
-        [name, slug, id]
+        "UPDATE categories SET name = $1, slug = $2,image_url=$3,alt_text=$4 WHERE id = $5 RETURNING *",
+        [name, slug,image_url,alt_text, id]
     )
     return result.rows[0]
 }
