@@ -23,7 +23,9 @@
 .main-for-color {
     color: #F4EFEC;
 }
-
+.english-font{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 .fa-num {
     font-family: kalameh-num;
 }

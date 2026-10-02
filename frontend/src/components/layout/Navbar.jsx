@@ -20,9 +20,9 @@ const Navbar = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
     return (
-        <div className='flex justify-between items-center px-2 main-bg-color'>
+        <div className='flex justify-between items-center h-20 px-2 main-bg-color'>
             <div>
-                <img src="/logo/logo.png" alt="logo" width={'80px'} height={'40px'} />
+                <img src="/images/logo/logo.png" alt="logo" width={'80px'} height={'40px'} />
             </div>
             <div ref={menuRef} className='relative'>
                 <ul className=' flex gap-6'>

@@ -18,7 +18,7 @@ const SubMenu = () => {
         fetchCategories()
     }, [])
     return (
-        <div className='absolute right-0 w-full top-12'>
+        <div className='absolute right-0 w-full top-12 z-50'>
             <ul className='main-bg-color rounded-b-2xl p-4'>
                 {categories.map(category => (
                     <div key={category.slug}>
