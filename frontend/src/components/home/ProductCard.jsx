@@ -33,7 +33,7 @@ const ProductCard = () => {
         getData()
     }, [])
     return (
-        <div className='bg-mauve-300 relative rounded-2xl my-48'>
+        <div className='bg-mauve-300 relative rounded-2xl my-32'>
             <div className='bg-mauve-300 absolute ms-2 flex flex-col justify-center rounded-2xl my-48'>
                 <p className='text-2xl'>محصولات ویژه <span className='text-mauve-600 text-3xl'>لوفی</span></p>
                 <Link href={'/'} className='flex items-center gap-2 mt-5'>
