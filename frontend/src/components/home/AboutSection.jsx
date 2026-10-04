@@ -12,7 +12,7 @@ const AboutSection = () => {
                     <span className='text-2xl '>زیبایی در سادگیست</span>
                     <span className='text-black/90'>لوفی معتقد است زیبایی هر انسان در سادگی اوست , به همین دلیل است که لوفی فروش محصولات اکسسوری خود را بر مبنای سادگی ولی زیبا قرار داده است تا به مشتریان خود این پیام رابرساند که حتما نیازی به استفاده از اکسسوری های خیلی شلوغ با طرح های عجیب نیست و میتوان با اکسسوری های مینیمال و ساده حسابی بدرخشند.</span>
                     <div className='flex justify-center'>
-                        <Link href={'/'} className='bg-mauve-500 border border-mauve-800 hover:bg-white hover:text-mauve-800 transition-all rounded-2xl px-3 py-2 text-white'>درباره لوفی بیشتر بدانید</Link>
+                        <Link href={'/'} className='bg-mauve-500 border border-mauve-800 hover:bg-white hover:text-mauve-800 transition-all rounded-full px-3 py-2 text-white'>درباره لوفی بیشتر بدانید</Link>
                     </div>
                 </div>
 

@@ -11,6 +11,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import '../../styles/slider.css'
+import { apiUrl } from '../api';
 const ProductCard = () => {
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
@@ -19,9 +20,9 @@ const ProductCard = () => {
         const getData = async () => {
             try {
                 const [productsRes, imagesRes, variantsRes] = await Promise.all([
-                    axios.get('http://localhost:4000/api/products'),
-                    axios.get('http://localhost:4000/api/product-images'),
-                    axios.get('http://localhost:4000/api/product-variants')
+                    apiUrl.get('/products'),
+                    apiUrl.get('/product-images'),
+                    apiUrl.get('/product-variants')
                 ])
                 setProducts(productsRes.data)
                 setImages(imagesRes.data)

@@ -4,13 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { PiArrowBendLeftDownFill } from "react-icons/pi";
+import { apiUrl } from '../api'
 
 const CategoryCard = () => {
     const [categories, setCategories] = useState([])
     useEffect(() => {
         const getCategories = async () => {
             try {
-                const res = await axios.get('http://localhost:4000/api/categories')
+                const res = await apiUrl.get('/categories')
                 setCategories(res.data)
             } catch (error) {
                 console.error(error)
