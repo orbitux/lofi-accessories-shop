@@ -37,9 +37,14 @@ const Navbar = () => {
                 {openCategoriesSubMenu && <SubMenu />}
             </div>
             <div className='flex gap-3'>
-                <FiSearch size={24} />
-                <IoPersonCircleOutline size={24} />
-                <BsCart2 size={24} />
+                <FiSearch size={32} />
+                <IoPersonCircleOutline size={32} />
+                <div className='relative'>
+                    <div className='absolute w-5 h-5 bg-mauve-500 top-0 rounded-full flex justify-center items-center text-white'>
+                        <span className='text-sm fa-num'>0</span>
+                    </div>
+                    <BsCart2 size={32} />
+                </div>
             </div>
         </div>
     )
