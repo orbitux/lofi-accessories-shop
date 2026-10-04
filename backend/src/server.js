@@ -21,24 +21,8 @@ app.use('/api/product-images', pImagesRoutes)
 app.use('/api/addresses', addressesRoutes)
 app.use('/api/users', usersRoutes)
 app.use('/api/carts', cartsRoutes)
-app.get('/api/order-items', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} order_items`
-    )
-    res.json(result.rows)
-})
-app.get('/api/orders', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} orders`
-    )
-    res.json(result.rows)
-})
-app.get('/api/payments', async (req, res) => {
-    const result = await pool.query(
-        `${getQuery} payments`
-    )
-    res.json(result.rows)
-})
+
+
 app.listen(4000, () => {
     console.log('Server is Running on port 4000');
 })
