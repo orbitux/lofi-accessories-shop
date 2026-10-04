@@ -1,13 +1,26 @@
 'use client'
-import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { PiArrowBendLeftDownFill } from "react-icons/pi";
 import { apiUrl } from '../api'
-
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger)
 const CategoryCard = () => {
+    const categoryRef = useRef(null)
     const [categories, setCategories] = useState([])
+    useEffect(() => {
+        gsap.fromTo(categoryRef.current, { opacity: 0, y: 80 }, {
+            opacity: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: {
+                trigger: categoryRef.current,
+                start: "top 85%",
+                end: "top 60%",
+                scrub: false,
+                once: true
+            }
+        })
+    }, [])
     useEffect(() => {
         const getCategories = async () => {
             try {
@@ -20,7 +33,7 @@ const CategoryCard = () => {
         getCategories()
     }, [])
     return (
-        <div className='grid grid-cols-4 my-12 gap-10'>
+        <div ref={categoryRef} className='category grid grid-cols-4 my-12 gap-10'>
             {categories.map((category, index) => (
                 <div key={index} className='flex justify-center hover:-translate-y-3 transition-all'>
                     <Link href={`/${category.slug}`}>
