@@ -29,7 +29,7 @@ const SpecialOffer = () => {
     }, [])
     return (
         <div className='grid grid-cols-2 container mx-auto'>
-            <div className='flex flex-col gap-10 '>
+            <div className='flex flex-col items-center gap-10 '>
                 <span className='text-6xl text-olive-800'>special offer</span>
                 <div className='flex items-center'>
                     <span className='text-4xl'>تا <span className='text-5xl font-bold text-olive-700'>30%</span>تخفیف</span>
@@ -43,7 +43,7 @@ const SpecialOffer = () => {
             <div className='border border-mauve-400 bg-mauve-300 rounded-2xl w-full '>
                 <Swiper
                     modules={[Autoplay, Pagination]}
-                    pagination
+                    pagination={{ clickable: true }}
                     direction='vertical'
                     autoplay={{ delay: 3000 }}
                     loop={true}
