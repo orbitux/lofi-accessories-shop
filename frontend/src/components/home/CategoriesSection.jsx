@@ -8,7 +8,6 @@ const CategoriesSection = () => {
         <div className='category container mx-auto'>
             <div className='flex items-center mt-5'>
                 <p className='text-2xl '>دسته بندی های محبوب <span className='text-mauve-500 text-3xl'>لوفی</span></p>
-                <PiArrowBendLeftDownFill size={27} />
             </div>
             <CategoryCard />
         </div>
