@@ -18,7 +18,7 @@ const ServiceUs = () => {
                 </div>
                 <div className='flex flex-col items-center'>
                     <MdSupportAgent size={80} color='purple' />
-                    <span>پشتیبانی قدرتمند</span>
+                    <span>پشتیبانی 24/7</span>
                 </div>
                 <div className='flex flex-col items-center'>
                     <GiDoubleNecklace size={80} color='darkgoldenrod' />
