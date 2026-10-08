@@ -2,7 +2,7 @@
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { apiUrl } from './api'
+import { apiUrl } from '../api'
 
 const SubMenu = () => {
     const [categories, setCategories] = useState([])
