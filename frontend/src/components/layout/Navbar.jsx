@@ -7,9 +7,10 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { BsCart2 } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
-import SubMenu from '../SubMenu';
-import BasketItems from '../BasketItems';
-import LoginBox from '../LoginBox';
+import SubMenu from '../home/SubMenu';
+import BasketItems from '../home/BasketItems';
+import LoginBox from '../home/LoginBox';
+import Link from 'next/link';
 const Navbar = () => {
     const [openCategoriesSubMenu, setOpenCategoriesSubMenu] = useState(false)
     const [openCarts, setOpenCarts] = useState(false)
@@ -32,8 +33,10 @@ const Navbar = () => {
             </div>
             <div className='relative'>
                 <ul className=' flex gap-6'>
-                    <li>خانه</li>
-                    <li>محصولات</li>
+                    <Link href={'/'}>
+                        <li>خانه</li>
+                    </Link>
+                    <Link href={'/products'}><li>محصولات</li></Link>
                     <button aria-expanded onMouseEnter={() => setOpenCategoriesSubMenu((prev) => !prev)} className='flex cursor-pointer items-center gap-2'>
                         <li>دسته بندی ها</li>
                         {openCategoriesSubMenu ? <IoIosArrowUp /> : <IoIosArrowDown />}
