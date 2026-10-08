@@ -7,17 +7,16 @@ import SpecialOffer from "@/components/home/SpecialOffer";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 
+
 export default function Home() {
   return (
     <>
-      <Navbar />
       <Hero />
       <CategoriesSection />
       <FeaturedProducts />
       <AboutSection />
       <SpecialOffer />
       <ServiceUs />
-      <Footer />
     </>
   );
 }
