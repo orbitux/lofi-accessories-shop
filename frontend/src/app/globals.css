@@ -16,16 +16,26 @@
     src: url('/fonts/kalameh/KalamehWeb-FaNum-Regular.woff') format('woff');
 }
 
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("https://fonts.googleapis.com/css2?family=Isometra&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+}
+
 .main-bg-color {
-    background-color:#F4EFEC;
+    background-color: #F4EFEC;
 }
 
 .main-for-color {
     color: #F4EFEC;
 }
-.english-font{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+.english-font {
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
+
 .fa-num {
     font-family: kalameh-num;
 }
