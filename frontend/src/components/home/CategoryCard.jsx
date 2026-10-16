@@ -3,9 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { PiArrowBendLeftDownFill } from "react-icons/pi";
-import { apiUrl } from '../api'
+import { apiUrl } from '../../api/api'
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getCategories } from '@/api/category';
 gsap.registerPlugin(ScrollTrigger)
 const CategoryCard = () => {
     const categoryRef = useRef(null)
@@ -22,20 +23,20 @@ const CategoryCard = () => {
         })
     }, [])
     useEffect(() => {
-        const getCategories = async () => {
+        const getCategoriesFunc = async () => {
             try {
-                const res = await apiUrl.get('/categories')
-                setCategories(res.data)
+                const res = await getCategories()
+                setCategories(res)
             } catch (error) {
                 console.error(error)
             }
         }
-        getCategories()
+        getCategoriesFunc()
     }, [])
     return (
         <div ref={categoryRef} className='category grid grid-cols-4 my-12 gap-10'>
-            {categories.map((category, index) => (
-                <div key={index} className='flex justify-center hover:-translate-y-3 transition-all'>
+            {categories.map((category) => (
+                <div key={category.id} className='flex justify-center hover:-translate-y-3 transition-all'>
                     <Link href={`/${category.slug}`}>
                         <div className='flex items-center justify-center text-2xl mb-3'>
                             <span className='text-mauve-900'>{category.name}</span>

@@ -4,5 +4,5 @@ const router = express.Router()
 router.get('/', getCartsController)
 router.post('/items', addToCartController)
 router.patch('/items/:id', updateCartItemController)
-router.delete('/items/:id',deleteCartItemController)
+router.delete('/items/:id', deleteCartItemController)
 export default router

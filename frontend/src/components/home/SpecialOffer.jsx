@@ -3,29 +3,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { BiSolidOffer } from "react-icons/bi";
-import { apiUrl } from '../api';
+import { apiUrl } from '../../api/api';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { getProductImages, getProducts, getProductVariants } from '@/api/product';
 const SpecialOffer = () => {
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
     const [variants, setVariants] = useState([])
     useEffect(() => {
-        const getProducts = async () => {
+        const getProductsFunc = async () => {
             try {
                 const [productRes, imageRes, variantRes] = await Promise.all([
-                    apiUrl.get('/products'),
-                    apiUrl.get('/product-images'),
-                    apiUrl.get('/product-variants')
+                    getProducts(),
+                    getProductImages(),
+                    getProductVariants()
                 ])
-                setProducts(productRes.data)
-                setImages(imageRes.data)
-                setVariants(variantRes.data)
+                setProducts(productRes)
+                setImages(imageRes)
+                setVariants(variantRes)
             } catch (error) {
                 console.error('Error fetching data:', error)
             }
         }
-        getProducts()
+        getProductsFunc()
     }, [])
     return (
         <div className='grid grid-cols-2 container mx-auto'>

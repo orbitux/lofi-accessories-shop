@@ -2,16 +2,16 @@
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { apiUrl } from '../api'
+import { apiUrl } from '../../api/api'
+import { getCategories } from '@/api/category'
 
 const SubMenu = () => {
     const [categories, setCategories] = useState([])
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await apiUrl.get('/categories')
-                console.log(res.data);
-                setCategories(res.data)
+                const res = await getCategories()
+                setCategories(res)
             } catch (error) {
                 console.error("API Error:", error);
             }

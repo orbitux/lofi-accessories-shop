@@ -58,10 +58,10 @@ const HeroTitle = () => {
     }, [])
 
     return (
-        <div ref={titleRef}>
+        <span ref={titleRef}>
             <span ref={typingRef}></span>
             <span ref={cursorRef}>|</span>
-        </div>
+        </span>
     )
 }
 

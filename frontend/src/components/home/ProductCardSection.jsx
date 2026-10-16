@@ -11,7 +11,8 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import '../../styles/slider.css'
-import { apiUrl } from '../api';
+import { apiUrl } from '../../api/api';
+import { getProductImages, getProducts, getProductVariants } from '@/api/product';
 const ProductCartSection = () => {
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
@@ -20,13 +21,13 @@ const ProductCartSection = () => {
         const getData = async () => {
             try {
                 const [productsRes, imagesRes, variantsRes] = await Promise.all([
-                    apiUrl.get('/products'),
-                    apiUrl.get('/product-images'),
-                    apiUrl.get('/product-variants')
+                    getProducts(),
+                    getProductImages(),
+                    getProductVariants()
                 ])
-                setProducts(productsRes.data)
-                setImages(imagesRes.data)
-                setVariants(variantsRes.data)
+                setProducts(productsRes)
+                setImages(imagesRes)
+                setVariants(variantsRes)
             } catch (error) {
                 console.error('Error fetching data:', error)
             }
@@ -43,7 +44,7 @@ const ProductCartSection = () => {
                 </Link>
             </div>
             <Swiper
-                modules={[ Pagination, Autoplay,]}
+                modules={[Pagination, Autoplay,]}
                 pagination={{ clickable: true }}
                 autoplay={{ delay: 3000, disableOnInteraction: true }}
                 speed={600}

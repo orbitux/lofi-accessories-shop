@@ -5,14 +5,16 @@ export const getCartsService = async (userId) => {
         `
             SELECT
             ci.id,
+            p.id AS product_id,
             p.name AS product_name,
             pv.color,
             pv.price,
+            pv.stock,
             ci.quantity,
             pv.price * ci.quantity AS subtotal
             FROM carts c
             JOIN cart_items ci
-            ON ci.cart_id = ci.id
+            ON ci.cart_id = c.id
             JOIN product_variants pv
             ON pv.id = ci.product_variant_id
             JOIN products p

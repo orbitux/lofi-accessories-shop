@@ -1,6 +1,5 @@
-import Navbar from "@/components/layout/Navbar";
+import Providers from "@/Providers";
 import "./globals.css";
-import Footer from "@/components/layout/Footer";
 
 export const metadata = {
   title: "فروشگاه آنلاین لوفی اکسسوری",
@@ -10,10 +9,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl">
-      <body>
-        <Navbar />
-        {children}
-        <Footer />
+      <body className="min-h-screen flex flex-col">
+        <main className="flex-1">
+          <Providers>
+            {children}
+          </Providers>
+        </main>
       </body>
 
     </html>

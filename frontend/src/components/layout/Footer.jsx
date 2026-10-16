@@ -6,7 +6,7 @@ import { FaInstagram } from "react-icons/fa";
 import { PiTelegramLogoLight } from "react-icons/pi";
 const Footer = () => {
     return (
-        <div className='main-bg-color border-t-2 border-t-mauve-400'>
+        <div className='main-bg-color border-t-2u border-t-mauve-400'>
             <div className="grid grid-cols-4 gap-10 h-auto text-center">
                 <div className='flex flex-col items-center'>
                     <p className='leading-10'>وبسایت لوفی اکسسوری مفتخر است تا با بهترین قیمت و تضمین کیفیت محصولات همراه مشتریان خود را راضی نگه داشته و برای استایل مشتریان ارزش قائل باشد</p>

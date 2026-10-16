@@ -1,30 +1,30 @@
 'use client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { apiUrl } from '../api'
 import ProductsToolbar from './ProductsToolbar'
+import { getProductImages, getProducts, getProductVariants } from '@/api/product'
 
 const ProductsGrid = () => {
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
     const [variants, setVariants] = useState([])
-
     useEffect(() => {
-        const getProducts = async () => {
+
+        const getProductsFunc = async () => {
             try {
                 const [productRes, imageRes, variantRes] = await Promise.all([
-                    apiUrl.get('/products'),
-                    apiUrl.get('/product-images'),
-                    apiUrl.get('/product-variants')
+                    getProducts(),
+                    getProductImages(),
+                    getProductVariants()
                 ])
-                setProducts(productRes.data)
-                setImages(imageRes.data)
-                setVariants(variantRes.data)
+                setProducts(productRes)
+                setImages(imageRes)
+                setVariants(variantRes)
             } catch (error) {
-                console.error('failt to fetch data', error)
+                console.error('failed to fetch data', error)
             }
         }
-        getProducts()
+        getProductsFunc()
     }, [])
     return (
         <>
@@ -48,7 +48,7 @@ const ProductsGrid = () => {
                                 <span>قیمت : <span className='fa-num text-mauve-800 font-bold text-2xl'>{productVariant.price.toLocaleString('fa-IR')}</span> تومان</span>
                                 <div className='flex gap-10'>
                                     <button className=' gap-2 bg-mauve-800 text-white px-2 py-1 rounded'>افزودن به سبد خرید</button>
-                                    <Link href={'/'} className='bg-mauve-400 px-2 py-1 rounded'>مشاهده محصول</Link>
+                                    <Link href={`/products/${product.slug}`} className='bg-mauve-400 px-2 py-1 rounded'>مشاهده محصول</Link>
                                 </div>
                             </div>
                         </div>

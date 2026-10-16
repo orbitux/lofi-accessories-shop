@@ -1,6 +1,5 @@
 import express from 'express'
 import cors from 'cors'
-import { pool } from '../config/database.js'
 import categoriesRoutes from './routes/categoriesRoutes.js'
 import productsRoutes from './routes/productsRoutes.js'
 import pVariantsRoutes from './routes/pVariantsRoutes.js'

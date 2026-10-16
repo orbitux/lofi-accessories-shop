@@ -11,17 +11,18 @@ import SubMenu from '../home/SubMenu';
 import BasketItems from '../home/BasketItems';
 import LoginBox from '../home/LoginBox';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 const Navbar = () => {
     const [openCategoriesSubMenu, setOpenCategoriesSubMenu] = useState(false)
     const [openCarts, setOpenCarts] = useState(false)
     const [openLogin, setOpenLogin] = useState(false)
     const menuRef = useRef(null)
+    const totalQuantity = useSelector(state => state.cart.totalQuantity)
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (menuRef.current && !menuRef.current.contains(e.target))
-                setOpenCategoriesSubMenu(false)
-            setOpenCarts(false)
-            setOpenLogin(false)
+                setOpenCarts(false)
+            // setOpenLogin(false)
         }
         document.addEventListener("mousedown", handleClickOutside)
         return () => document.removeEventListener("mousedown", handleClickOutside)
@@ -56,13 +57,14 @@ const Navbar = () => {
                     <LoginBox openLogin={openLogin} />
                 </div>
                 <div className='relative' >
-                    <div className='cursor-pointer' onClick={() => setOpenCarts((prev) => !prev)}>
-                        <div className='absolute w-5 h-5 bg-mauve-500 top-0 rounded-full flex justify-center items-center text-white'>
-                            <span className='text-sm fa-num'>0</span>
+                    <Link href={'/cart'}>
+                        <div className='cursor-pointer' onClick={() => setOpenCarts((prev) => !prev)}>
+                            <div className='absolute w-5 h-5 bg-mauve-500 top-0 rounded-full flex justify-center items-center text-white'>
+                                <span className='text-sm fa-num'>{totalQuantity}</span>
+                            </div>
+                            <BsCart2 size={32} />
                         </div>
-                        <BsCart2 size={32} />
-                    </div>
-                    <BasketItems openCarts={openCarts} />
+                    </Link>
                 </div>
             </div>
         </div>
