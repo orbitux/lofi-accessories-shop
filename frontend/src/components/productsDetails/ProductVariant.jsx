@@ -4,6 +4,8 @@ import { getProductVariants } from '@/api/product'
 import { addToCart, getCarts } from '@/api/carts'
 import { useDispatch } from 'react-redux'
 import { setCart } from '@/store/cartSlice'
+import { Button } from '../ui/button'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select'
 
 const ProductVariant = ({ product }) => {
     const [variants, setVariants] = useState([])
@@ -45,18 +47,25 @@ const ProductVariant = ({ product }) => {
     return (
         <div>
             <div className='flex flex-col gap-5'>
-                <select value={selectedVariant?.id || ""} onChange={(e) => {
-                    const variant = variantData.find(variant => variant.id === Number(e.target.value))
+                <Select value={selectedVariant?.id ? String(selectedVariant.id) : ''} onValueChange={(value) => {
+                    const variant = variantData.find(variant => variant.id === Number(value))
                     setSelectedVariant(variant)
                     setQuantity(1)
                 }} className='bg-mauve-500 rounded-2xl py-1 px-2 text-white '>
-                    <option value="">انتخاب رنگ </option>
-                    {variantData.map(variant => (
-                        <option key={variant.id} value={variant.id}>
-                            {variant.color}
-                        </option>
-                    ))}
-                </select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="انتخاب رنگ" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>انتخاب رنگ </SelectLabel>
+                            {variantData.map(variant => (
+                                <SelectItem key={variant.id} value={String(variant.id)}>
+                                    {variant.color}
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
                 {selectedVariant && (
                     <>
                         <div className='fa-num flex items-center gap-10'>
@@ -84,7 +93,7 @@ const ProductVariant = ({ product }) => {
                     </>
                 )}
                 <div className='flex justify-center'>
-                    <button onClick={handleAddToCart} className='bg-mauve-500 hover:cursor-pointer text-white rounded-2xl py-1 px-2'>افزودن به سبد خرید</button>
+                    <Button onClick={handleAddToCart} className='bg-mauve-500 hover:cursor-pointer text-white rounded-lg py-1 px-2'>افزودن به سبد خرید</Button>
                 </div>
                 {cartError && (
                     <span className='text-red-500 text-sm'>{cartError}</span>
