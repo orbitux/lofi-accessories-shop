@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import { BiSolidDashboard } from "react-icons/bi";
@@ -6,8 +7,16 @@ import { FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoIosSettings } from "react-icons/io";
 import { IoExitOutline } from "react-icons/io5";
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const DashboardSidebar = () => {
+    const { logout } = useAuth()
+    const router = useRouter()
+    const handleLogout = async () => {
+        await logout()
+        router.replace('/login')
+    }
     const menuItems = [
         {
             icon: <BiSolidDashboard size={24} />,
@@ -54,7 +63,7 @@ const DashboardSidebar = () => {
                 </div>
                 <div className='flex flex-col justify-end h-1/2'>
                     <div className='w-full h-0.5 bg-mist-500'></div>
-                    <div className='flex items-center gap-2 ps-2 p-4'>
+                    <div onClick={handleLogout} className='flex items-center gap-2 ps-2 p-4'>
                         <IoExitOutline size={24} />
                         <button>خروج از حساب کاربری</button>
                     </div>
