@@ -13,31 +13,34 @@ const CartItem = () => {
     const [error, setError] = useState('')
     const [actionLoading, setActionLoading] = useState(null)
     const [deleteLoading, setDeleteLoading] = useState(null)
+    const [actionError, setActionError] = useState('')
     const items = useSelector(state => state.cart.items)
     const dispatch = useDispatch()
     const handleUpdateQuantity = async (itemId, quantity) => {
+        setActionError('')
         try {
             setActionLoading(itemId)
             await updateCart(itemId, quantity)
             const cart = await getCarts()
             dispatch(setCart(cart))
-            await new Promise(resolve => setTimeout(resolve, 2000))
         } catch (error) {
             console.error(error);
+            setActionError('بروزرسانی تعداد محصول به مشکل مواجه شد !')
         } finally {
             setActionLoading(null)
         }
     }
     const handleDeleteItem = async (itemId) => {
+        setActionError('')
         try {
             setDeleteLoading(itemId)
             await deleteCart(itemId)
             const cart = await getCarts()
             dispatch(setCart(cart))
-            await new Promise(resolve => setTimeout(resolve, 2000))
 
         } catch (error) {
             console.error(error)
+            setActionError('مشکلی در حذف محصول بوجود آمد!')
         } finally {
             setDeleteLoading(null)
         }
@@ -85,6 +88,9 @@ const CartItem = () => {
                 <>
                     <div className='grid grid-cols-2'>
                         <div className='border border-mauve-200'>
+                            {actionError && (
+                                <p className="text-red-500 text-sm text-center" role="alert">{actionError}</p>
+                            )}
                             {items.map(item => {
                                 const imageData = images.filter(image => image.product_id === item.product_id)
                                 return (
