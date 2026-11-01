@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import Link from 'next/link'
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const LoginForm = () => {
     const router = useRouter()
@@ -26,7 +27,10 @@ const LoginForm = () => {
                 values.password
             )
             if (result.success) {
-                router.push('/dashboard')
+                toast.success(' ورود با موفقیت انجام شد ', {
+                    description: 'حالا میتوانید از منوی کاربری وارد داشبورد خود شوید'
+                })
+                router.push('/')
             }
             console.log('Login result:', result)
         }
@@ -55,7 +59,7 @@ const LoginForm = () => {
                         </span>
                     )}
                     <button type="submit" disabled={formik.isSubmitting} className='bg-mauve-500 rounded text-white mt-3 disabled:opacity-50 disabled:cursor-not-allowed'>
-                        {formik.isSubmitting ?  'درحال ورود...' : 'ورود'}
+                        {formik.isSubmitting ? 'درحال ورود...' : 'ورود'}
                     </button>
                 </form>
                 <Link href={'/dashboard'}>ورود به پنل</Link>

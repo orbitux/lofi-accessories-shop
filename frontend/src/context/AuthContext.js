@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { apiUrl } from "@/api/api"
 import { createContext, useContext, useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { clearCart } from '@/store/cartSlice'
 
 const AuthContext = createContext()
 
@@ -8,6 +10,8 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const dispatch = useDispatch()
+
     const checkAuth = async () => {
         try {
             const response = await apiUrl.get('/auth/me')
@@ -68,6 +72,7 @@ const AuthProvider = ({ children }) => {
         try {
             setError(null)
             await apiUrl.post('/auth/logout')
+            dispatch(clearCart())
             setUser(null)
         } catch (error) {
             console.log('REGISTER ERROR:', error.response?.data)

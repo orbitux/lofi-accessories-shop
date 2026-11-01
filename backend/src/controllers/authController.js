@@ -8,7 +8,7 @@ export const registerController = async (req, res) => {
             typeof name !== "string" || typeof email !== "string" || typeof password !== "string"
         ) {
             return res.status(400).json({
-                messgae: "Name, email and password are required."
+                message: "Name, email and password are required."
             })
         }
         if (

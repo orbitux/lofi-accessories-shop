@@ -6,11 +6,26 @@ export const registerUserService = async ({
 
     const normilizeEmail = email.trim().toLowerCase()
     const hashedPassword = await bcrypt.hash(password, 12)
-    const result = await pool.query(
-        `INSERT INTO users(name,email,password,role) VALUES ($1,$2,$3,$4) RETURNING id,name,email,role,created_at`,
-        [name.trim(), normilizeEmail, hashedPassword, 'customer']
-    )
-    result.rows[0]
+    const client = await pool.connect()
+    try {
+        await client.query('BEGIN')
+        const userResult = await client.query(
+            `INSERT INTO users(name,email,password,role) VALUES ($1,$2,$3,$4) RETURNING id,name,email,role`,
+            [name.trim(), normilizeEmail, hashedPassword, 'customer']
+        )
+        const user = userResult.rows[0]
+        await client.query(`
+            INSERT INTO carts(user_id) VALUES ($1)
+            `, [user.id])
+
+        await client.query('COMMIT')
+        return user
+    } catch (error) {
+        await client.query('ROLLBACK')
+        throw error
+    } finally {
+        client.release()
+    }
 }
 export const loginUserService = async (email) => {
     const normilizeEmail = email.trim().toLowerCase()
