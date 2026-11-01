@@ -12,23 +12,12 @@ import BasketItems from '../home/BasketItems';
 import LoginBox from '../home/LoginBox';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
+import SearchBox from '../home/SearchBox';
 const Navbar = () => {
     const [openCategoriesSubMenu, setOpenCategoriesSubMenu] = useState(false)
-    const [openCarts, setOpenCarts] = useState(false)
-    const [openLogin, setOpenLogin] = useState(false)
-    const menuRef = useRef(null)
     const totalQuantity = useSelector(state => state.cart.totalQuantity)
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (menuRef.current && !menuRef.current.contains(e.target))
-                setOpenCarts(false)
-            // setOpenLogin(false)
-        }
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => document.removeEventListener("mousedown", handleClickOutside)
-    }, [])
     return (
-        <div ref={menuRef} className='flex justify-between items-center h-20 px-2 main-bg-color'>
+        <div className='flex justify-between items-center h-20 px-2 main-bg-color'>
             <div>
                 <img src="/images/logo/logo.png" alt="logo" width={'80px'} height={'40px'} />
             </div>
@@ -49,23 +38,10 @@ const Navbar = () => {
                 </div>
             </div>
             <div className='flex gap-3'>
-                <FiSearch size={32} />
-                <div className='relative'>
-                    <div className='cursor-pointer' onClick={() => setOpenLogin((prev) => !prev)}>
-                        <IoPersonCircleOutline size={32} />
-                    </div>
-                    <LoginBox openLogin={openLogin} />
-                </div>
-                <div className='relative' >
-                    <Link href={'/cart'}>
-                        <div className='cursor-pointer' onClick={() => setOpenCarts((prev) => !prev)}>
-                            <div className='absolute w-5 h-5 bg-mauve-500 top-0 rounded-full flex justify-center items-center text-white'>
-                                <span className='text-sm fa-num'>{totalQuantity}</span>
-                            </div>
-                            <BsCart2 size={32} />
-                        </div>
-                    </Link>
-                </div>
+                <SearchBox />
+
+                <LoginBox />
+                <BasketItems />
             </div>
         </div>
     )

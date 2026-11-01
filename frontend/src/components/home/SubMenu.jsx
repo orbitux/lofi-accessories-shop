@@ -24,7 +24,7 @@ const SubMenu = () => {
                 {categories.map(category => (
                     <div key={category.slug}>
                         <div>
-                            <Link href={category.slug}><li className='text-center py-1'>{category.name}</li></Link>
+                            <Link href={`/categories/${category.slug}`}><li className='text-center py-1'>{category.name}</li></Link>
                         </div>
                     </div>
                 ))}
