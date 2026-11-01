@@ -1,7 +1,6 @@
-import CategoriesGrid from "@/components/categories/CategoriesGrid";
 import CategoriesPageCard from "@/components/categories/CategoriesPageCard";
 
-export default function CategoriesPage() {
+export default function Categories() {
     return (
         <main>
             <CategoriesPageCard />
