@@ -13,6 +13,12 @@ export const getCategory = async (id) => {
     )
     return result.rows[0]
 }
+export const getCategoryBySlug = async (slug) => {
+    const result = await pool.query(
+        "SELECT * FROM categories WHERE slug = $1", [slug]
+    )
+    return result.rows[0]
+}
 export const createCategory = async (name, slug) => {
     const result = await pool.query(
         "INSERT INTO categories (name,slug) VALUES ($1,$2) RETURNING *",
@@ -23,7 +29,7 @@ export const createCategory = async (name, slug) => {
 export const updateCategory = async (name, slug, image_url, alt_text, id) => {
     const result = await pool.query(
         "UPDATE categories SET name = $1, slug = $2,image_url=$3,alt_text=$4 WHERE id = $5 RETURNING *",
-        [name, slug,image_url,alt_text, id]
+        [name, slug, image_url, alt_text, id]
     )
     return result.rows[0]
 }

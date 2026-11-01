@@ -1,4 +1,4 @@
-import { createCategory, deleteCategory, getCategories, getCategory, updateCategory } from "../services/categoriesService.js"
+import { createCategory, deleteCategory, getCategories, getCategory, getCategoryBySlug, updateCategory } from "../services/categoriesService.js"
 
 export const getCategoriesController = async (req, res) => {
     try {
@@ -20,6 +20,24 @@ export const getCategoryController = async (req, res) => {
         console.error(error)
         res.status(404).json({
             message: "Failed to fetch category"
+        })
+    }
+}
+export const getCategoryBySlugController = async (req, res) => {
+    try {
+        const { slug } = req.params
+        const category = await getCategoryBySlug(slug)
+        if (!category) {
+            return res.status(404).json({
+                message: 'Category not found'
+            })
+        }
+        res.status(200).json(category)
+    } catch (error) {
+        console.error(error)
+
+        res.status(500).json({
+            message: 'Failed to fetch category'
         })
     }
 }
