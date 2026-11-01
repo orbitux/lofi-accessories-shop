@@ -1,12 +1,13 @@
-import { deleteProduct, getAllProducts, getProducts, postProduct, updateProduct } from "../services/productsService.js"
+import { deleteProduct, getAllProducts, getProductBySlug, getProducts, getProductsByCaregory, getProductVariantsByProduct, postProduct, updateProduct } from "../services/productsService.js"
 
 export const getAllProductsController = async (req, res) => {
     try {
-        const result = await getAllProducts()
+        const { search = '' } = req.query
+        const result = await getAllProducts(search)
         res.status(200).json(result)
     } catch (error) {
         console.error(error)
-        res.status(404).json({
+        res.status(500).json({
             message: "failed to fetch data"
         })
     }
@@ -20,6 +21,49 @@ export const getProductsController = async (req, res) => {
         console.error(error)
         res.status(404).json({
             message: "failde to fetch data"
+        })
+    }
+}
+export const getProductBySlugController = async (req, res) => {
+    try {
+        const { slug } = req.params
+        const result = await getProductBySlug(slug)
+        if (!result) {
+            return res.status(404).json({
+                message: 'Product not found'
+            })
+        }
+        res.status(200).json(result)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: "failde to fetch data"
+        })
+    }
+}
+export const getProductVariantsByProductController = async (req, res) => {
+    try {
+        const { productId } = req.params
+        const variants = await getProductVariantsByProduct(productId)
+        res.status(200).json(variants)
+    } catch (error) {
+        console.error(error)
+
+        res.status(500).json({
+            message: 'Failed to fetch product variants'
+        })
+    }
+}
+export const getProductsByCategoryController = async (req, res) => {
+    try {
+        const { slug } = req.params
+        const result = await getProductsByCaregory(slug)
+        res.status(200).json(result)
+    } catch (error) {
+        console.error(error)
+
+        res.status(500).json({
+            message: 'Failed to fetch products by category'
         })
     }
 }

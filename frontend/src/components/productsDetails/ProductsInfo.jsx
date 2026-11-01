@@ -1,28 +1,21 @@
 'use client'
+import { getProductBySlug } from '@/api/product'
 import React, { useEffect, useState } from 'react'
-import { apiUrl } from '../../api/api'
-import ProductGallery from './ProductGallery'
 import ProductDetails from './ProductDetails'
 import ProductVariant from './ProductVariant'
-import { getProducts } from '@/api/product'
+import ProductGallery from './ProductGallery'
+import ProductDetailsSkeleton from './ProductDetailsSkeleton'
+import RelatedProducts from './RelatedProducts'
 
-const ProductsInfo = ({ slug }) => {
-    const [products, setProducts] = useState([])
-    useEffect(() => {
-        const getProductsFunc = async () => {
-            const res = await getProducts()
-            setProducts(res)
-        }
-        getProductsFunc()
-    }, [])
-    const product = products.find(product => product.slug === slug)
+const ProductsInfo = ({ product }) => {
     return (
-        <div className='container mx-auto grid grid-cols-2 my-10'>
-            <div className='border border-mauve-300 rounded p-4 h-full flex flex-col gap-3'>
+        <div className='container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 my-10 px-4'>
+            <div className='border border-mauve-200 rounded-2xl p-6'>
                 <ProductDetails product={product} />
                 <ProductVariant product={product} />
             </div>
             <ProductGallery product={product} />
+            <RelatedProducts product={product} />
         </div>
     )
 }

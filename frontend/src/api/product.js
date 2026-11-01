@@ -1,7 +1,23 @@
 import { apiUrl } from "./api"
 
-export const getProducts = async () => {
-    const response = await apiUrl.get('/products')
+export const getProducts = async (search = '') => {
+    const response = await apiUrl.get('/products', {
+        params: {
+            search
+        }
+    })
+    return response.data
+}
+export const getProductBySlug = async (slug) => {
+    const response = await apiUrl.get(`/products/slug/${slug}`)
+    return response.data
+}
+export const getProductVariantsByProduct = async (productId) => {
+    const response = await apiUrl.get(`/products/${productId}/variants`)
+    return response.data
+}
+export const getProductsByCategory = async (slug) => {
+    const response = await apiUrl.get(`/products/category/${slug}`)
     return response.data
 }
 export const getProductImages = async () => {

@@ -1,8 +1,8 @@
 import { pool } from "../../config/database.js"
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (search = '') => {
     const result = await pool.query(
-        "SELECT * FROM products"
+        'SELECT * FROM products WHERE name ILIKE $1 ORDER BY id DESC', [`%${search}%`]
     )
     return result.rows
 }
@@ -11,6 +11,38 @@ export const getProducts = async (id) => {
         "SELECT * FROM products WHERE id = $1", [id]
     )
     return result.rows[0]
+}
+export const getProductBySlug = async (slug) => {
+    const result = await pool.query(
+        `SELECT 
+            p.*,
+            c.slug AS category_slug
+         FROM products p
+         JOIN categories c
+            ON c.id = p.category_id
+         WHERE p.slug = $1`,
+        [slug]
+    )
+    return result.rows[0]
+}
+export const getProductVariantsByProduct = async (productId) => {
+    const result = await pool.query(
+        `SELECT * FROM product_variants
+        WHERE product_id = $1 ORDER BY id ASC`, [productId]
+    )
+    return result.rows
+}
+export const getProductsByCaregory = async (slug) => {
+    const result = await pool.query(
+        `
+            SELECT p.*
+            FROM products p
+            JOIN categories c ON c.id = p.category_id
+            WHERE c.slug = $1
+            ORDER BY p.id DESC
+        `, [slug]
+    )
+    return result.rows
 }
 export const postProduct = async (name, slug, description, category_id) => {
     const result = await pool.query(
