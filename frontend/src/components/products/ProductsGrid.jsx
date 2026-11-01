@@ -1,60 +1,65 @@
 'use client'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
 import ProductsToolbar from './ProductsToolbar'
 import { getProductImages, getProducts, getProductVariants } from '@/api/product'
+import ProductSkeleton from './ProductSkeleton'
+import ProductsEmptyState from './ProductsEmptyState'
+import ProductCard from './ProductsCard'
+import { useEffect, useState } from 'react'
 
-const ProductsGrid = () => {
+const ProductsGrid = ({ search }) => {
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
+    const [loading, setLoading] = useState(true)
     const [variants, setVariants] = useState([])
     useEffect(() => {
 
         const getProductsFunc = async () => {
             try {
+                setLoading(true)
                 const [productRes, imageRes, variantRes] = await Promise.all([
-                    getProducts(),
+                    getProducts(search),
                     getProductImages(),
                     getProductVariants()
                 ])
+
                 setProducts(productRes)
                 setImages(imageRes)
                 setVariants(variantRes)
             } catch (error) {
                 console.error('failed to fetch data', error)
+            } finally {
+                setTimeout(() => {
+                    setLoading(false)
+                }, 2000)
             }
         }
         getProductsFunc()
-    }, [])
+    }, [search])
     return (
         <>
-            < ProductsToolbar products={products} />
-            <div className='grid grid-cols-4 gap-10 mb-10'>
-                {products.map((product) => {
-                    const productImage = images.find(image => image.product_id === product.id)
-                    const productVariant = variants.find(variant => variant.product_id === product.id)
-
-                    return (
-                        <div key={product.id} className='bg-mauve-100 w-auto rounded-xl border border-mauve-600'>
-                            <div className='flex flex-col items-center gap-5 mb-5'>
-                                <img src={productImage.image_url} alt="" className='w-auto h-100 rounded-t-xl' />
-                                <span className='text-xl font-bold'>{product.name}</span>
-                                <span className='text-lg'>رنگ :
-
-                                    <span className={`${productVariant.color == 'طلایی' ? 'bg-yellow-600' : 'bg-gray-500 text-white'} rounded-full px-2 ms-2`}>
-                                        {productVariant.color}
-                                    </span>
-                                </span>
-                                <span>قیمت : <span className='fa-num text-mauve-800 font-bold text-2xl'>{productVariant.price.toLocaleString('fa-IR')}</span> تومان</span>
-                                <div className='flex gap-10'>
-                                    <button className=' gap-2 bg-mauve-800 text-white px-2 py-1 rounded'>افزودن به سبد خرید</button>
-                                    <Link href={`/products/${product.slug}`} className='bg-mauve-400 px-2 py-1 rounded'>مشاهده محصول</Link>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
+            {!loading && products.length > 0 && (
+                < ProductsToolbar products={products} />
+            )}
+            {loading ? (
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-10'>
+                    {Array.from({ length: 8 }).map((_, index) => (
+                        <ProductSkeleton key={index} />
+                    ))}
+                </div>
+            ) : products.length === 0 ? (
+                <ProductsEmptyState search={search} title={'محصولی پیدا نشد!'}/>
+            ) : (
+                <div className='container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 lg:gap-8 mb-10'>
+                    {products.map((product) => {
+                        const productImage = images.find(image => image.product_id === product.id)
+                        const productVariant = variants.find(variant => variant.product_id === product.id)
+                        return (
+                            <ProductCard key={product.id} product={product} productImage={productImage} productVariant={productVariant} />
+                        )
+                    })}
+                </div>
+            )
+            }
         </>
     )
 }

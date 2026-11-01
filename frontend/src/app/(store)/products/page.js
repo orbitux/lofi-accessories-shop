@@ -1,13 +1,15 @@
-import Pagination from "@/components/products/Pagination";
-import ProductCard from "@/components/products/ProductsCard";
+import Pagination from "@/components/products/ProductsPagination";
+import ProductsGrid from "@/components/products/ProductsGrid";
 import ProductsHeader from "@/components/products/ProductsHeader";
+import ProductsPagination from "@/components/products/ProductsPagination";
 
-export default function ProductsPage() {
+export default async function ProductsPage({ searchParams }) {
+const { search = '' } = await searchParams
     return (
         <main>
             <ProductsHeader />
-            <ProductCard />
-            <Pagination />
+            <ProductsGrid search={search} />
+            <ProductsPagination />
         </main>
     )
 }
