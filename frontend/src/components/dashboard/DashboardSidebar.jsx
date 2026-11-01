@@ -63,10 +63,8 @@ const DashboardSidebar = () => {
                 </div>
                 <div className='flex flex-col justify-end h-1/2'>
                     <div className='w-full h-0.5 bg-mist-500'></div>
-                    <div onClick={handleLogout} className='flex items-center gap-2 ps-2 p-4'>
-                        <IoExitOutline size={24} />
-                        <button>خروج از حساب کاربری</button>
-                    </div>
+
+                    <button onClick={handleLogout} className='flex cursor-pointer items-center gap-2 ps-2 p-4'> <IoExitOutline size={24} />خروج از حساب کاربری</button>
                 </div>
             </div>
         </div>
