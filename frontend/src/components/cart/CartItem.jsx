@@ -64,7 +64,7 @@ const CartItem = () => {
     if (loading) {
         return (
             <div className=' flex justify-center items-center'>
-                <Lottie src={'/animations/loading.json'} loop autoplay style={{ width: '80px', height: '80px' }} />
+                <Lottie src={'/animations/loading/loading.json'} loop autoplay style={{ width: '80px', height: '80px' }} />
             </div>
         )
     }

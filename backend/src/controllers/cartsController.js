@@ -2,7 +2,7 @@ import { addToCartService, deleteCartItemService, getCartsService, updateCartIte
 
 export const getCartsController = async (req, res) => {
     try {
-        const cart = await getCartsService(1)
+        const cart = await getCartsService(req.user.id)
         res.status(200).json(cart)
     } catch (error) {
         console.error(error)
@@ -15,7 +15,7 @@ export const getCartsController = async (req, res) => {
 export const addToCartController = async (req, res) => {
     try {
         const { product_variant_id, quantity } = req.body
-        const cartItem = await addToCartService(1, product_variant_id, quantity)
+        const cartItem = await addToCartService(req.user.id, product_variant_id, quantity)
         res.status(201).json(cartItem)
     } catch (error) {
         res.status(500).json({
@@ -32,7 +32,7 @@ export const updateCartItemController = async (req, res) => {
                 message: "Quantity must be a positive integer"
             });
         }
-        const updatedItem = await updateCartItemService(1, id, quantity)
+        const updatedItem = await updateCartItemService(req.user.id, id, quantity)
         res.status(200).json(updatedItem)
     } catch (error) {
         console.error(error);
@@ -45,7 +45,7 @@ export const updateCartItemController = async (req, res) => {
 export const deleteCartItemController = async (req, res) => {
     try {
         const { id } = req.params
-        const deleteItem = await deleteCartItemService(1, id)
+        const deleteItem = await deleteCartItemService(req.user.id, id)
         res.status(200).json(deleteItem)
     } catch (error) {
         console.error(error);

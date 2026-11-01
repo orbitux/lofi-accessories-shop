@@ -11,7 +11,14 @@ export const getCartsService = async (userId) => {
             pv.price,
             pv.stock,
             ci.quantity,
-            pv.price * ci.quantity AS subtotal
+            pv.price * ci.quantity AS subtotal,
+            (
+                SELECT pi.image_url
+                FROM product_images pi
+                WHERE pi.product_id = p.id
+                ORDER BY pi.sort_order ASC
+                LIMIT 1
+            ) AS product_image
             FROM carts c
             JOIN cart_items ci
             ON ci.cart_id = c.id
