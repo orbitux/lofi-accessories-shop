@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Button } from '../ui/button'
 import { SlidersHorizontal } from 'lucide-react'
 
-const ProductsToolbar = ({ products }) => {
+const ProductsToolbar = ({ products, sort, onSortChange }) => {
     return (
         <div className='mb-8 container mx-auto'>
             <div className='flex flex-col md:flex-row items-center justify-between gap-4 border border-mauve-200 bg-mauve-50 rounded-xl p-4'>
@@ -15,22 +15,19 @@ const ProductsToolbar = ({ products }) => {
 
                 {/* Control */}
                 <div className='flex flex-wrap items-center justify-center gap-3'>
-                    <Select>
+                    <Select value={sort} onValueChange={onSortChange}>
                         <SelectTrigger className='w-40 bg-white'>
                             <SelectValue placeholder='مرتب سازی' />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value='newest'>
+                                جدیدترین
+                            </SelectItem>
                             <SelectItem value='cheapest'>
                                 ارزانترین
                             </SelectItem>
                             <SelectItem value='expensive'>
                                 گرانترین
-                            </SelectItem>
-                            <SelectItem value='discount'>
-                                پرتخفیف ترین
-                            </SelectItem>
-                            <SelectItem value='popular'>
-                                محبوب ترین
                             </SelectItem>
                         </SelectContent>
                     </Select>

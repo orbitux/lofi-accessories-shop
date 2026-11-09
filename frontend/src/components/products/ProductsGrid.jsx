@@ -6,9 +6,10 @@ import ProductsEmptyState from './ProductsEmptyState'
 import ProductCard from './ProductsCard'
 import { useEffect, useState } from 'react'
 import ProductsPagination from './ProductsPagination'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-const ProductsGrid = ({ search, page }) => {
+const ProductsGrid = ({ search, page, initialSort }) => {
+    const sort = initialSort
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
     const [loading, setLoading] = useState(true)
@@ -17,6 +18,13 @@ const ProductsGrid = ({ search, page }) => {
     const [error, setError] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const handleSortChange = (newSort) => {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set('sort', newSort)
+        params.set('page', '1')
+        router.push(`${pathname}?${params.toString()}`)
+    }
     useEffect(() => {
 
         const getProductsFunc = async () => {
@@ -24,7 +32,7 @@ const ProductsGrid = ({ search, page }) => {
                 setLoading(true)
                 setError(false)
                 const [productRes, imageRes, variantRes] = await Promise.all([
-                    getProducts({ search, page, limit: 8 }),
+                    getProducts({ search, page, limit: 8, sort }),
                     getProductImages(),
                     getProductVariants()
                 ])
@@ -46,11 +54,11 @@ const ProductsGrid = ({ search, page }) => {
             }
         }
         getProductsFunc()
-    }, [page, pathname, router, search])
+    }, [page, pathname, router, search, sort])
     return (
         <>
             {!loading && !error && products.length > 0 && (
-                <ProductsToolbar products={products} />
+                <ProductsToolbar products={products} sort={sort} onSortChange={handleSortChange} />
 
             )}
             {error ? (

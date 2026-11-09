@@ -1,10 +1,36 @@
 import { pool } from "../../config/database.js"
 
-export const getAllProducts = async (search = '', page = 1, limit = 2) => {
+export const getAllProducts = async (search = '', page = 1, limit = 8, sort = 'newest') => {
     const offset = (page - 1) * limit
+    const sortOptions = {
+        newest: 'p.id DESC',
+        cheapest: 'COALESCE(v.min_price, 0) ASC',
+        expensive: 'COALESCE(v.max_price, 0) DESC'
+    }
+    const orderBy = sortOptions[sort] || sortOptions.newest
     const result = await pool.query(
-        'SELECT * FROM products WHERE name ILIKE $1 ORDER BY id DESC LIMIT $2 OFFSET $3', [`%${search}%`, limit, offset]
+        `
+        SELECT
+            p.*,
+            v.min_price,
+            v.max_price
+        FROM products p
+        LEFT JOIN (
+            SELECT
+                product_id,
+                MIN(price) AS min_price,
+                MAX(price) AS max_price
+            FROM product_variants
+            GROUP BY product_id
+        ) v ON v.product_id = p.id
+        WHERE p.name ILIKE $1
+        ORDER BY ${orderBy}
+        LIMIT $2
+        OFFSET $3
+        `,
+        [`%${search}%`, limit, offset]
     )
+
     const countResult = await pool.query(
         `
             SELECT COUNT(*)

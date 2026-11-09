@@ -4,11 +4,11 @@ import ProductsHeader from "@/components/products/ProductsHeader";
 import ProductsPagination from "@/components/products/ProductsPagination";
 
 export default async function ProductsPage({ searchParams }) {
-    const { search = '', page = '1' } = await searchParams
+    const { search = '', page = '1', sort = 'newest' } = await searchParams
     return (
         <main>
             <ProductsHeader />
-            <ProductsGrid search={search} page={Number(page)} />
+            <ProductsGrid search={search} page={Number(page)} initialSort={sort} />
         </main>
     )
 }
