@@ -50,10 +50,8 @@ const ProductsGrid = ({ search, page }) => {
     return (
         <>
             {!loading && !error && products.length > 0 && (
-                <>
-                    <ProductsToolbar products={products} />
-                    <ProductsPagination currentPage={page} totalPages={pagination?.totalPages ?? 1} />
-                </>
+                <ProductsToolbar products={products} />
+
             )}
             {error ? (
                 <ProductsEmptyState title={'مشکلی در دریافت محصول پیش آمد'} />
@@ -75,11 +73,14 @@ const ProductsGrid = ({ search, page }) => {
                                 <ProductCard key={product.id} product={product} productImage={productImage} productVariant={productVariant} />
                             )
                         })}
+
                     </div>
                 )
 
             }
-
+            {!loading && !error && products.length > 0 && (
+                <ProductsPagination currentPage={page} totalPages={pagination?.totalPages ?? 1} />
+            )}
         </>
     )
 }

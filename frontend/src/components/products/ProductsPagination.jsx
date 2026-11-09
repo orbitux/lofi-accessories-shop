@@ -15,7 +15,7 @@ const ProductsPagination = ({ currentPage, totalPages }) => {
     }
     return (
         <Pagination className='my-10'>
-            <PaginationContent className={'flex items-center gap-10'}>
+            <PaginationContent className='flex items-center gap-10'>
                 <PaginationItem>
                     <PaginationLink href='#' aria-label='صفحه قبلی'
                         aria-disabled={currentPage === 1}
