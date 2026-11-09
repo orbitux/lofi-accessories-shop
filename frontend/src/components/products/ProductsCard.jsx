@@ -1,5 +1,43 @@
+import { addToCart, getCarts } from '@/api/carts';
+import { setCart } from '@/store/cartSlice';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'sonner'
 const ProductCard = ({ product, productImage, productVariant }) => {
+    const router = useRouter()
+    const dispatch = useDispatch()
+    const [isAddingToCart, setIsAddingToCart] = useState(false)
+    const handleAddToCart = async () => {
+        if (!productVariant) {
+            toast.error('این محصول در حال حاضر قابل خرید نیست.')
+            return
+        }
+        setIsAddingToCart(true)
+        try {
+            await addToCart(productVariant.id, 1)
+            const cart = await getCarts()
+            dispatch(setCart(cart))
+            toast.success('محصول با موفقیت به سبد خرید اضافه شد', {
+                action: {
+                    label: 'برو به سبد خرید',
+                    onClick: () => {
+                        router.push('/cart')
+                    }
+                }
+            })
+        } catch (error) {
+            console.error('Failed to add product to cart:', error)
+            if (error.response?.data?.message === 'Not enough stock') {
+                toast.error('در انبار موجود نیست!')
+            } else {
+                toast.error('مشکلی در افزودن به سبد خرید رخ داد!')
+            }
+        } finally {
+            setIsAddingToCart(false)
+        }
+    }
     return (
         <div className='bg-mauve-100 rounded-xl border border-mauve-200 overflow-hidden'>
             <div className='flex flex-col items-center gap-5 pb-5'>
@@ -20,7 +58,11 @@ const ProductCard = ({ product, productImage, productVariant }) => {
                         </>
                     )}
                     <div className='flex gap-3'>
-                        <button className='bg-mauve-800 text-white px-2 py-1 rounded cursor-pointer'>
+                        <button
+                            type='button'
+                            onClick={handleAddToCart}
+                            disabled={isAddingToCart}
+                            className='bg-mauve-800 text-white px-2 py-1 rounded cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed'>
                             افزودن به سبد خرید
                         </button>
                         <Link href={`/products/${product.slug}`} className='bg-mauve-400 px-2 py-1 rounded'>

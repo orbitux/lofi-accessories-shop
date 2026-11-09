@@ -1,9 +1,11 @@
 import { apiUrl } from "./api"
 
-export const getProducts = async (search = '') => {
+export const getProducts = async ({ search = '', page = 1, limit = 8 }) => {
     const response = await apiUrl.get('/products', {
         params: {
-            search
+            search,
+            page,
+            limit
         }
     })
     return response.data

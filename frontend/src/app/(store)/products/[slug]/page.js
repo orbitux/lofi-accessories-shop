@@ -5,21 +5,19 @@ import { notFound } from "next/navigation";
 
 export default async function ProductsSlug({ params }) {
     const { slug } = await params;
-
+    let product
     try {
-        const product = await getProductBySlug(slug);
-
-        if (!product) {
-            notFound();
-        }
-
-        return (
-            <main>
-                <ProductsInfo product={product} />
-            </main>
-        );
+        product = await getProductBySlug(slug)
     } catch (error) {
-        console.error(error);
-        notFound();
+        console.error('Failed to fetch product:', error)
+        throw error
     }
+    if (!product) {
+        notFound()
+    }
+    return (
+        <main>
+            <ProductsInfo product={product} />
+        </main>
+    )
 }

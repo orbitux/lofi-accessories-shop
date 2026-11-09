@@ -2,8 +2,15 @@ import { deleteProduct, getAllProducts, getProductBySlug, getProducts, getProduc
 
 export const getAllProductsController = async (req, res) => {
     try {
-        const { search = '' } = req.query
-        const result = await getAllProducts(search)
+        const { search = '', page = 1, limit = 2 } = req.query
+        const pageNumber = Number(page)
+        const limitNumber = Number(limit)
+        if (!Number.isInteger(pageNumber) || pageNumber < 1 || !Number.isInteger(limitNumber) || limitNumber < 1 || limitNumber > 50) {
+            return res.status(400).json({
+                message: 'Invalid pagination parameters'
+            })
+        }
+        const result = await getAllProducts(search, pageNumber, limitNumber)
         res.status(200).json(result)
     } catch (error) {
         console.error(error)

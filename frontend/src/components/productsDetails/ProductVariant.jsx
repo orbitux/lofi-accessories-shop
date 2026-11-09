@@ -163,4 +163,3 @@ const ProductVariant = ({ product }) => {
 }
 
 export default ProductVariant
-
