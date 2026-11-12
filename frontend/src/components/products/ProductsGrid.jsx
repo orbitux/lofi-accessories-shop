@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import ProductsPagination from './ProductsPagination'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-const ProductsGrid = ({ search, page, initialSort }) => {
+const ProductsGrid = ({ search, page, initialSort, categoryId }) => {
     const sort = initialSort
     const [products, setProducts] = useState([])
     const [images, setImages] = useState([])
@@ -25,6 +25,16 @@ const ProductsGrid = ({ search, page, initialSort }) => {
         params.set('page', '1')
         router.push(`${pathname}?${params.toString()}`)
     }
+    const handleCategoryChange = (newCategoryId) => {
+        const params = new URLSearchParams(searchParams.toString())
+        if (newCategoryId === 'all') {
+            params.delete('categoryId')
+        } else {
+            params.set('categoryId', newCategoryId)
+        }
+        params.set('page', '1')
+        router.push(`${pathname}?${params.toString()}`)
+    }
     useEffect(() => {
 
         const getProductsFunc = async () => {
@@ -32,7 +42,7 @@ const ProductsGrid = ({ search, page, initialSort }) => {
                 setLoading(true)
                 setError(false)
                 const [productRes, imageRes, variantRes] = await Promise.all([
-                    getProducts({ search, page, limit: 8, sort }),
+                    getProducts({ search, page, limit: 8, sort, categoryId }),
                     getProductImages(),
                     getProductVariants()
                 ])
@@ -54,11 +64,11 @@ const ProductsGrid = ({ search, page, initialSort }) => {
             }
         }
         getProductsFunc()
-    }, [page, pathname, router, search, sort])
+    }, [categoryId, page, pathname, router, search, sort])
     return (
         <>
             {!loading && !error && products.length > 0 && (
-                <ProductsToolbar products={products} sort={sort} onSortChange={handleSortChange} />
+                <ProductsToolbar products={products} sort={sort} onSortChange={handleSortChange} categoryId={categoryId} onCategoryChange={handleCategoryChange} />
 
             )}
             {error ? (

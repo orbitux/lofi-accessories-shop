@@ -1,6 +1,6 @@
 import { pool } from "../../config/database.js"
 
-export const getAllProducts = async (search = '', page = 1, limit = 8, sort = 'newest') => {
+export const getAllProducts = async (search = '', page = 1, limit = 8, sort = 'newest', categoryId = null) => {
     const offset = (page - 1) * limit
     const sortOptions = {
         newest: 'p.id DESC',
@@ -24,11 +24,12 @@ export const getAllProducts = async (search = '', page = 1, limit = 8, sort = 'n
             GROUP BY product_id
         ) v ON v.product_id = p.id
         WHERE p.name ILIKE $1
+        AND ($2::int IS NULL OR p.category_id = $2)
         ORDER BY ${orderBy}
-        LIMIT $2
-        OFFSET $3
+        LIMIT $3
+        OFFSET $4
         `,
-        [`%${search}%`, limit, offset]
+        [`%${search}%`, categoryId, limit, offset]
     )
 
     const countResult = await pool.query(
@@ -36,7 +37,8 @@ export const getAllProducts = async (search = '', page = 1, limit = 8, sort = 'n
             SELECT COUNT(*)
             FROM products
             WHERE name ILIKE $1
-        `, [`%${search}%`]
+            AND ($2::int IS NULL OR category_id = $2)
+        `, [`%${search}%`, categoryId]
     )
     const totalProducts = Number(countResult.rows[0].count)
     return {

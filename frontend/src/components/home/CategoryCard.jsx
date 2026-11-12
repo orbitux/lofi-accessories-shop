@@ -37,7 +37,7 @@ const CategoryCard = () => {
         <div ref={categoryRef} className='category grid grid-cols-4 my-12 gap-10'>
             {categories.map((category) => (
                 <div key={category.id} className='flex justify-center hover:-translate-y-3 transition-all'>
-                    <Link href={`/${category.slug}`}>
+                    <Link href={`/categories/${category.slug}`}>
                         <div className='flex items-center justify-center text-2xl mb-3'>
                             <span className='text-mauve-900'>{category.name}</span>
                             <PiArrowBendLeftDownFill />

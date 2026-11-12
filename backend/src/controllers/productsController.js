@@ -2,10 +2,19 @@ import { deleteProduct, getAllProducts, getProductBySlug, getProducts, getProduc
 
 export const getAllProductsController = async (req, res) => {
     try {
-        const { search = '', page = 1, limit = 8, sort = 'newest' } = req.query
+        const { search = '', page = 1, limit = 8, sort = 'newest', categoryId } = req.query
         const pageNumber = Number(page)
         const limitNumber = Number(limit)
         const allowedSorts = ['newest', 'cheapest', 'expensive']
+        const parsedCategoryId = categoryId === undefined ? null : Number(categoryId)
+        if (
+            categoryId !== undefined &&
+            (!Number.isInteger(parsedCategoryId) || parsedCategoryId <= 0)
+        ) {
+            return res.status(400).json({
+                message: 'Invalid categoryId parameter'
+            })
+        }
         if (!allowedSorts.includes(sort)) {
             return res.status(400).json({
                 message: 'Invalid sort parameter'
@@ -16,7 +25,7 @@ export const getAllProductsController = async (req, res) => {
                 message: 'Invalid pagination parameters'
             })
         }
-        const result = await getAllProducts(search, pageNumber, limitNumber, sort)
+        const result = await getAllProducts(search, pageNumber, limitNumber, sort, parsedCategoryId)
         res.status(200).json(result)
     } catch (error) {
         console.error(error)

@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Button } from '../ui/button'
 import { SlidersHorizontal } from 'lucide-react'
+import { getCategories } from '@/api/category'
 
-const ProductsToolbar = ({ products, sort, onSortChange }) => {
+const ProductsToolbar = ({ products, sort, onSortChange, categoryId, onCategoryChange, showCategoryFilter = true }) => {
+    const [categories, setCategories] = useState([])
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await getCategories()
+                setCategories(Array.isArray(data) ? data : data.categories || [])
+            } catch (error) {
+                console.error('Failed to fetch categories:', error)
+            }
+        }
+        fetchCategories()
+    }, [])
     return (
         <div className='mb-8 container mx-auto'>
             <div className='flex flex-col md:flex-row items-center justify-between gap-4 border border-mauve-200 bg-mauve-50 rounded-xl p-4'>
@@ -32,27 +45,25 @@ const ProductsToolbar = ({ products, sort, onSortChange }) => {
                         </SelectContent>
                     </Select>
                     {/* Category */}
-                    <Select>
-                        <SelectTrigger className='w-40 bg-white'>
-                            <SelectValue placeholder='همه دسته ها' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value='all'>
-                                همه دسته ها
-                            </SelectItem>
-                            <SelectItem value='necklaces'>
-                                گردنبند
-                            </SelectItem>
-
-                            <SelectItem value='bracelets'>
-                                دستبند
-                            </SelectItem>
-
-                            <SelectItem value='bangles'>
-                                بنگل
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
+                    {showCategoryFilter && (
+                        <Select value={categoryId ? String(categoryId) : 'all'}
+                            onValueChange={onCategoryChange}
+                        >
+                            <SelectTrigger className='w-40 bg-white'>
+                                <SelectValue placeholder='همه دسته ها' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value='all'>
+                                    همه دسته ها
+                                </SelectItem>
+                                {categories.map(category => (
+                                    <SelectItem key={category.id} value={String(category.id)}>
+                                        {category.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
 
                     {/* Future Filters */}
                     <Button
